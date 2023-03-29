@@ -1,8 +1,10 @@
 import 'package:etut_mobile/global/styles/styles.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:gap/gap.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
+import 'package:unicons/unicons.dart';
 import '../providers/bottom_navigation_provider.dart';
 
 class BottomNavigationBarScreen extends StatelessWidget {
@@ -15,102 +17,78 @@ class BottomNavigationBarScreen extends StatelessWidget {
     final colors = AppStyles.colorScheme(context);
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      // appBar: AppBar(
-      //   surfaceTintColor: colors.surfaceTint,
-      //   backgroundColor: colors.background,
-      //   title: Container(
-      //     height: 36,
-      //     decoration: ShapeDecoration(
-      //         shape: RoundedRectangleBorder(
-      //             side: BorderSide(color: colors.outline, width: 1),
-      //             borderRadius: BorderRadius.circular(8)),
-      //         color: colors.background),
-      //     child: Padding(
-      //       padding: const EdgeInsets.symmetric(horizontal: 12),
-      //       child: Row(
-      //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //         children: [
-      //           Text(
-      //             StringKeys.search_hint.tr(),
-      //             style: const TextStyle(fontSize: 14),
-      //           ),
-      //           const Icon(CupertinoIcons.search, size: 20),
-      //         ],
-      //       ),
-      //     ),
-      //   ),
-      //   actions: [
-      //     Padding(
-      //       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 0),
-      //       child: PopupMenuButton(
-      //         onSelected: (value) {
-      //           switch (value) {
-      //             case 0:
-      //               context.setLocale(const Locale('tk'));
-      //               break;
-      //             case 1:
-      //               context.setLocale(const Locale('en'));
-      //               break;
-      //             case 2:
-      //               context.setLocale(const Locale('ru'));
-      //               break;
-      //           }
-      //         },
-      //         shape: RoundedRectangleBorder(
-      //             borderRadius: BorderRadius.circular(12)),
-      //         itemBuilder: (BuildContext context) {
-      //           return const [
-      //             PopupMenuItem(
-      //               value: 0,
-      //               child: Text("🇹🇲 Türkmençe"),
-      //             ),
-      //             PopupMenuItem(
-      //               value: 1,
-      //               child: Text("🇬🇧 English"),
-      //             ),
-      //             PopupMenuItem(
-      //               value: 2,
-      //               child: Text("🇷🇺 Русский"),
-      //             )
-      //           ];
-      //         },
-      //         child: const Icon(
-      //           Icons.language,
-      //           size: 30,
-      //         ),
-      //       ),
-      //     ),
-      //     const Gap(8),
-      //   ],
-      // ),
+      appBar: AppBar(
+        surfaceTintColor: colors.surfaceTint,
+        backgroundColor: colors.background,
+        title: const Text("ETUT"),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 0),
+            child: PopupMenuButton(
+              onSelected: (value) {},
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
+              itemBuilder: (BuildContext context) {
+                return const [
+                  PopupMenuItem(
+                    value: 0,
+                    child: Text("🇹🇲 Türkmençe"),
+                  ),
+                  PopupMenuItem(
+                    value: 1,
+                    child: Text("🇬🇧 English"),
+                  ),
+                  PopupMenuItem(
+                    value: 2,
+                    child: Text("🇷🇺 Русский"),
+                  ),
+                  PopupMenuItem(
+                    value: 2,
+                    child: Text("🇯🇵 Japanese"),
+                  )
+                ];
+              },
+              child: const Icon(
+                Icons.language,
+                size: 30,
+              ),
+            ),
+          ),
+          const Gap(8),
+        ],
+      ),
       body: PersistentTabView(
         context,
         controller: provider.persistentTabController,
         screens: provider.screens,
-        backgroundColor: Colors.white,
+        backgroundColor: colors.background,
         items: [
           PersistentBottomNavBarItem(
-            icon: const Icon(Linee),
-            inactiveIcon: const Icon(FluentIcons.home_24_regular),
+            icon: const Icon(FeatherIcons.home),
+            // inactiveIcon: const Icon(FluentIcons.home_24_regular),
             title: ("Home"),
             // activeColorPrimary: AppColors.primaryColor,
-            // activeColorSecondary: colors.onSecondaryContainer,
+            activeColorSecondary: colors.onSecondaryContainer,
             inactiveColorPrimary: colors.onSurfaceVariant,
+
+            textStyle: const TextStyle(fontWeight: FontWeight.bold),
           ),
           PersistentBottomNavBarItem(
-            icon: const Icon(CupertinoIcons.square_grid_2x2_fill),
-            inactiveIcon: const Icon(CupertinoIcons.square_grid_2x2),
+            icon: const Icon(FeatherIcons.search),
+            // inactiveIcon: const Icon(CupertinoIcons.square_grid_2x2),
             title: ("Search"),
-            activeColorPrimary: AppColors.primaryColor,
-            // activeColorSecondary: colors.onSecondaryContainer,
+            textStyle: const TextStyle(fontWeight: FontWeight.bold),
+            // activeColorPrimary: AppColors.primaryColor,
+            activeColorSecondary: colors.onSecondaryContainer,
             inactiveColorPrimary: colors.onSurfaceVariant,
           ),
           PersistentBottomNavBarItem(
-            icon: const Icon(CupertinoIcons.person_fill),
-            inactiveIcon: const Icon(CupertinoIcons.person),
+            icon: const Icon(UniconsLine.newspaper),
+            // inactiveIcon: const Icon(CupertinoIcons.person),
             title: ("News"),
-            activeColorPrimary: ,
-            // activeColorSecondary: colors.onSecondaryContainer,
+            textStyle: const TextStyle(fontWeight: FontWeight.bold),
+            // activeColorPrimary: colors.,
+            activeColorSecondary: colors.onSecondaryContainer,
             inactiveColorPrimary: colors.onSurfaceVariant,
           ),
         ],
@@ -134,8 +112,7 @@ class BottomNavigationBarScreen extends StatelessWidget {
         //   curve: Curves.ease,
         //   duration: Duration(milliseconds: 200),
         // ),
-        navBarStyle:
-            NavBarStyle.style8, // Choose the nav bar style with this property.
+        navBarStyle: NavBarStyle.style9,
       ),
     );
   }
@@ -179,39 +156,3 @@ class BottomNavigationBarScreen extends StatelessWidget {
 //           ),
 //         ],
 //       ),
-
-class Screen2 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.green,
-      child: const Center(
-        child: Text("Screen 2"),
-      ),
-    );
-  }
-}
-
-class Screen4 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.yellow,
-      child: const Center(
-        child: Text("Screen 4"),
-      ),
-    );
-  }
-}
-
-class Screen5 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.purple,
-      child: const Center(
-        child: Text("Screen 5"),
-      ),
-    );
-  }
-}
