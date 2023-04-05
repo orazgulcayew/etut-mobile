@@ -1,5 +1,5 @@
-import 'package:etut_mobile/bottomnavigation/providers/bottom_navigation_provider.dart';
-import 'package:etut_mobile/bottomnavigation/views/bottom_navigation.dart';
+import 'package:etut_mobile/global/providers/theme_provider.dart';
+import 'package:etut_mobile/navigation/views/navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,20 +14,23 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<BottomNavigationBarProvider>(
-          create: (context) => BottomNavigationBarProvider(),
+        ChangeNotifierProvider(
+          create: (context) => ThemeProvider(),
         )
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        theme: ThemeData(
-            useMaterial3: true,
-            brightness: Brightness.dark,
-            colorSchemeSeed: Colors.lightBlue,
-            fontFamily: "Nunito"),
-        home: const BottomNavigationBarScreen(),
-      ),
+      builder: (context, child) {
+        final themeProvider = Provider.of<ThemeProvider>(context);
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Flutter Demo',
+          theme: ThemeData(
+              useMaterial3: true,
+              brightness: themeProvider.brightness,
+              colorSchemeSeed: Colors.lightBlue,
+              fontFamily: "Nunito"),
+          home: const NavigationScreen(),
+        );
+      },
     );
   }
 }
