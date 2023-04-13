@@ -2,6 +2,7 @@ import 'package:etut_mobile/articles/views/articles_screen.dart';
 import 'package:etut_mobile/global/providers/theme_provider.dart';
 import 'package:etut_mobile/home/views/home_screen.dart';
 import 'package:etut_mobile/faculties/views/faculties_screen.dart';
+import 'package:etut_mobile/news/views/news_reader_screen.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ import 'package:provider/provider.dart';
 
 import '../../cource_center/views/course_center_screen.dart';
 import '../../education_portal/views/education_portal_screen.dart';
+import '../../news/views/news_screen.dart';
 import '../../talents/views/talents_screen.dart';
 import '../../vrtour/views/vrtour_screen.dart';
 
@@ -27,6 +29,7 @@ class NavigationScreen extends StatefulWidget {
 class _NavigationScreenState extends State<NavigationScreen> {
   final screens = [
     HomeScreen(),
+    NewsScreen(),
     FacultiesScreen(),
     VrTourScreen(),
     ArticlesScreen(),
@@ -75,6 +78,8 @@ class _NavigationScreenState extends State<NavigationScreen> {
           )),
           const NavigationDrawerDestination(
               icon: Icon(Icons.home_filled), label: Text("Home")),
+          const NavigationDrawerDestination(
+              icon: Icon(Icons.newspaper), label: Text("News")),
           const NavigationDrawerDestination(
               icon: Icon(Icons.school), label: Text("Faculties")),
           const NavigationDrawerDestination(

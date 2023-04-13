@@ -110,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 Container(
                   width: 200,
-                  height: 180,
+                  // height: 208,
                   margin: const EdgeInsets.all(8),
                   child: Column(
                     children: [
@@ -256,7 +256,92 @@ class _HomeScreenState extends State<HomeScreen> {
                         news: news[index],
                       )),
             ),
-          )
+          ),
+          const Gap(20),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              children: [
+                const Icon(
+                  UniconsLine.info_circle,
+                  size: 20,
+                ),
+                const Gap(4),
+                Text(
+                  "More from our university",
+                  style:
+                      styles.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          ),
+          const Gap(12),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Image.network(
+                    "https://images.pexels.com/photos/3405456/pexels-photo-3405456.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+                    height: 140,
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                  ),
+                ),
+                Container(
+                  width: double.infinity,
+                  height: 140,
+                  decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.3),
+                      borderRadius: BorderRadius.circular(20)),
+                ),
+                Positioned(
+                  bottom: 8,
+                  left: 16,
+                  child: Text(
+                    "Course center",
+                    style: styles.headlineLarge?.copyWith(
+                        fontWeight: FontWeight.bold, color: colors.surface),
+                  ),
+                )
+              ],
+            ),
+          ),
+          const Gap(16),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Image.network(
+                    "https://images.pexels.com/photos/3405456/pexels-photo-3405456.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+                    height: 140,
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                  ),
+                ),
+                Container(
+                  width: double.infinity,
+                  height: 140,
+                  decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.3),
+                      borderRadius: BorderRadius.circular(20)),
+                ),
+                Positioned(
+                  bottom: 8,
+                  left: 16,
+                  child: Text(
+                    "Productions",
+                    style: styles.headlineLarge?.copyWith(
+                        fontWeight: FontWeight.bold, color: colors.surface),
+                  ),
+                )
+              ],
+            ),
+          ),
+          const Gap(16),
         ],
       ),
     );
@@ -269,6 +354,10 @@ class NewsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final styles = AppStyles.textTheme(context);
+    String imageLink = "";
+    try {
+      imageLink = news.images[0].source;
+    } catch (e) {}
     return GestureDetector(
       onTap: () =>
           AppNavigation.pushScreen(context, NewsReaderScreen(news: news)),
@@ -283,7 +372,7 @@ class NewsCard extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8),
                   child: Image.network(
-                    news.images[0].source,
+                    imageLink,
                     height: 160,
                     width: 200,
                     fit: BoxFit.cover,

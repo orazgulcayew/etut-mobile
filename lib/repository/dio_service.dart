@@ -37,4 +37,25 @@ class DioService {
       return null;
     }
   }
+
+  Future<List<NewsCategory>?> getNewsCategories() async {
+    try {
+      final List<NewsCategory> news = [];
+
+      final Response response = await _dio.get(AppEndpoints.newsCat);
+
+      if (response.statusCode != 200) {
+        return null;
+      }
+
+      for (var data in response.data["results"]) {
+        news.add(NewsCategory.fromJson(data));
+      }
+
+      return news;
+    } catch (e) {
+      debugPrint(e.toString());
+      return null;
+    }
+  }
 }
