@@ -1,6 +1,7 @@
 import 'package:etut_mobile/global/styles/styles.dart';
 import 'package:etut_mobile/global/widgets/banner_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:gap/gap.dart';
 
 import '../../repository/models/news.dart';
@@ -45,10 +46,10 @@ class _NewsReaderScreenState extends State<NewsReaderScreen> {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Text(
-              widget.news.body,
-              style: styles.bodyLarge?.copyWith(color: colors.onSurface),
-              textAlign: TextAlign.justify,
+            child: Html(
+              data: widget.news.body,
+              defaultTextStyle:
+                  styles.bodyLarge?.copyWith(color: colors.onSurface),
             ),
           ),
           const Gap(48)

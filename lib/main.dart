@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:etut_mobile/global/providers/theme_provider.dart';
 import 'package:etut_mobile/navigation/views/navigation.dart';
+import 'package:etut_mobile/repository/http_overrides.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 void main() {
+  HttpOverrides.global = MyHttpOverrides();
   runApp(const MyApp());
 }
 

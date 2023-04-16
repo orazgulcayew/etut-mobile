@@ -1,10 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class VrTourScreen extends StatelessWidget {
   const VrTourScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    final controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setBackgroundColor(const Color(0x00000000))
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onWebResourceError: (WebResourceError error) {},
+        ),
+      )
+      ..loadRequest(Uri.parse(
+          'https://www.360cities.net/image/turkmenistan-ashgabat-ten-hourse-sq'));
+
+    return Scaffold(
+      body: WebViewWidget(controller: controller),
+    );
   }
 }

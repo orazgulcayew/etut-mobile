@@ -66,6 +66,7 @@ class TabBodyScreen extends StatelessWidget {
                 children: [
                   SizedBox(
                     width: double.infinity,
+                    height: double.infinity,
                     child: Image.network(
                       "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
                       fit: BoxFit.cover,
@@ -91,16 +92,19 @@ class TabBodyScreen extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 12, vertical: 4),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text('Name surname',
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                    )),
-                                Text('Teacher', style: TextStyle(fontSize: 12)),
-                              ],
+                            child: FittedBox(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text('Name surname',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                      )),
+                                  Text('Teacher',
+                                      style: TextStyle(fontSize: 12)),
+                                ],
+                              ),
                             ),
                           ),
                         ),

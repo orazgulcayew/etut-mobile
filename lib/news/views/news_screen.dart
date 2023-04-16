@@ -44,64 +44,72 @@ class _NewsScreenState extends State<NewsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Visibility(
-      visible: !isLoading,
-      replacement: const Center(
-        child: CircularProgressIndicator(),
-      ),
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              height: 40,
-              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              child: TextField(
-                decoration: InputDecoration(
-                    suffixIcon: const Icon(Icons.search),
-                    hintText: "Gözleg...",
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(24))),
-              ),
+    return Scaffold(
+      appBar: AppBar(title: const Text("News")),
+      body: SafeArea(
+        child: Visibility(
+          visible: !isLoading,
+          replacement: const Center(
+            child: CircularProgressIndicator(),
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  height: 40,
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  child: TextField(
+                    decoration: InputDecoration(
+                        suffixIcon: const Icon(Icons.search),
+                        hintText: "Gözleg...",
+                        contentPadding:
+                            const EdgeInsets.symmetric(horizontal: 16),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(24))),
+                  ),
+                ),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      ...List.generate(
+                          newsCat.length,
+                          (index) => Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 6),
+                                child: ChoiceChip(
+                                  label: Text(newsCat[index].title),
+                                  selected: index == selectedIndex,
+                                  onSelected: (value) {
+                                    if (value) {
+                                      setState(() {
+                                        selectedIndex = index;
+                                      });
+                                    }
+                                  },
+                                ),
+                              ))
+                    ],
+                  ),
+                ),
+                const Gap(8),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: StaggeredGrid.count(
+                    crossAxisCount: 2,
+                    children: List.generate(
+                        news.length,
+                        (index) => NewsCard(
+                              news: news[index],
+                            )),
+                  ),
+                ),
+                const Gap(16),
+              ],
             ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  ...List.generate(
-                      newsCat.length,
-                      (index) => Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 6),
-                            child: ChoiceChip(
-                              label: Text(newsCat[index].title),
-                              selected: index == selectedIndex,
-                              onSelected: (value) {
-                                if (value) {
-                                  setState(() {
-                                    selectedIndex = index;
-                                  });
-                                }
-                              },
-                            ),
-                          ))
-                ],
-              ),
-            ),
-            const Gap(8),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: StaggeredGrid.count(
-                crossAxisCount: 2,
-                children: List.generate(
-                    news.length,
-                    (index) => NewsCard(
-                          news: news[index],
-                        )),
-              ),
-            ),
-            const Gap(16),
-          ],
+          ),
         ),
       ),
     );
