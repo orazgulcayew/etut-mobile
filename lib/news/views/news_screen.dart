@@ -24,19 +24,19 @@ class _NewsScreenState extends State<NewsScreen> {
   @override
   void initState() {
     super.initState();
-
-    DioService().getNews().then((value) {
-      DioService().getNewsCategories().then((value) {
-        if (value != null) {
-          setState(() {
-            newsCat.addAll(value);
-            isLoading = false;
-          });
-        }
-      });
+    DioService().getNewsCategories().then((value) {
       if (value != null) {
         setState(() {
-          news = value;
+          newsCat.addAll(value);
+          isLoading = false;
+        });
+      }
+    });
+    DioService().getNews().then((valueNews) {
+      if (valueNews != null) {
+        setState(() {
+          news = valueNews;
+          isLoading = false;
         });
       }
     });

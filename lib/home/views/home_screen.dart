@@ -176,6 +176,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               Text(
                                 faculties[index].title ?? "",
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
                                 style: styles.titleMedium
                                     ?.copyWith(fontWeight: FontWeight.bold),
                               )

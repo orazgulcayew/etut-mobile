@@ -14,8 +14,7 @@ class VrTourScreen extends StatelessWidget {
           onWebResourceError: (WebResourceError error) {},
         ),
       )
-      ..loadRequest(Uri.parse(
-          'https://www.360cities.net/image/turkmenistan-ashgabat-ten-hourse-sq'));
+      ..loadRequest(Uri.parse('http://192.168.11.142:2222'));
 
     return Scaffold(
       body: WebViewWidget(controller: controller),
