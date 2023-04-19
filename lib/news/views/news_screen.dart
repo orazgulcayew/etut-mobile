@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:gap/gap.dart';
 
@@ -19,8 +17,14 @@ class _NewsScreenState extends State<NewsScreen> {
   List<News> news = [];
   List<NewsCategory> newsCat = [NewsCategory(id: -1, title: "All")];
   int selectedIndex = 0;
+  int? categoryId;
+  int pageSize = 1;
 
   bool isLoading = true;
+
+  final controller = ScrollController();
+
+  bool isLoadingMore = false;
   @override
   void initState() {
     super.initState();
@@ -32,10 +36,18 @@ class _NewsScreenState extends State<NewsScreen> {
         });
       }
     });
-    DioService().getNews().then((valueNews) {
+    getNews();
+  }
+
+  void getNews() {
+    DioService()
+        .getNews(toHome: null, category: categoryId, page: pageSize)
+        .then((valueNews) {
       if (valueNews != null) {
         setState(() {
-          news = valueNews;
+          pageSize++;
+          isLoadingMore = false;
+          news.addAll(valueNews);
           isLoading = false;
         });
       }
@@ -71,6 +83,7 @@ class _NewsScreenState extends State<NewsScreen> {
                   ),
                 ),
                 SingleChildScrollView(
+                  controller: controller,
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: [
@@ -85,7 +98,16 @@ class _NewsScreenState extends State<NewsScreen> {
                                   onSelected: (value) {
                                     if (value) {
                                       setState(() {
+                                        pageSize = 1;
+                                        news = [];
+                                        isLoading = true;
                                         selectedIndex = index;
+                                        categoryId = newsCat[selectedIndex].id;
+
+                                        if (selectedIndex == 0) {
+                                          categoryId = null;
+                                        }
+                                        getNews();
                                       });
                                     }
                                   },
@@ -106,6 +128,8 @@ class _NewsScreenState extends State<NewsScreen> {
                             )),
                   ),
                 ),
+                if (isLoadingMore) const Gap(16),
+                if (isLoadingMore) const LinearProgressIndicator(),
                 const Gap(16),
               ],
             ),
@@ -113,5 +137,15 @@ class _NewsScreenState extends State<NewsScreen> {
         ),
       ),
     );
+  }
+
+  void scrollListener() {
+    if (controller.offset >= controller.position.maxScrollExtent &&
+        !controller.position.outOfRange) {
+      setState(() {
+        isLoadingMore = true;
+      });
+      getNews();
+    }
   }
 }

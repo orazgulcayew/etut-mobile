@@ -19,18 +19,26 @@ class DioService {
 
   late final Dio _dio;
 
-  Future<List<News>?> getNews() async {
+  Future<List<News>?> getNews({toHome = "Unknown", category, int? page}) async {
     try {
       final List<News> news = [];
-
-      final Response response = await _dio.get(AppEndpoints.news);
+      late Response response;
+      if (toHome != null) {
+        response = await _dio
+            .get(AppEndpoints.news, queryParameters: {"to_home": toHome});
+      } else {
+        response = await _dio.get(AppEndpoints.news,
+            queryParameters: {"news_category": category, "page_size": page});
+      }
 
       if (response.statusCode != 200) {
         return null;
       }
 
-      for (var data in response.data["results"]) {
-        news.add(News.fromJson(data));
+      if (response.data["results"] != null) {
+        for (var data in response.data["results"]) {
+          news.add(News.fromJson(data));
+        }
       }
 
       return news;
@@ -40,11 +48,15 @@ class DioService {
     }
   }
 
-  Future<List<Research>?> getResearch() async {
+  Future<List<Research>?> getResearch({categoryId, page}) async {
     try {
       final List<Research> news = [];
 
-      final Response response = await _dio.get(AppEndpoints.research);
+      final Response response = await _dio.get(AppEndpoints.research,
+          queryParameters: {
+            "research_category": categoryId,
+            "page_size": page
+          });
 
       if (response.statusCode != 200) {
         return null;

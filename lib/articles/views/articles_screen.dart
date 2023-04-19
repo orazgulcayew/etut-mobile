@@ -1,4 +1,6 @@
+import 'package:etut_mobile/articles/views/articles_reader_screen.dart';
 import 'package:etut_mobile/global/styles/styles.dart';
+import 'package:etut_mobile/global/utils/app_navigator.dart';
 import 'package:etut_mobile/repository/models/research.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -14,26 +16,35 @@ class ArticlesScreen extends StatefulWidget {
 
 class _ArticlesScreenState extends State<ArticlesScreen> {
   List<Research> news = [];
+  final controller = ScrollController();
   List<ResearchCategory> newsCat = [ResearchCategory(id: -1, title: "All")];
   int selectedIndex = 0;
-
+  int? categoryId;
   bool isLoading = true;
+  bool isLoadingMore = false;
+  int page = 1;
   @override
   void initState() {
     super.initState();
-
-    DioService().getResearch().then((value) {
-      DioService().getResearchCategories().then((value) {
-        if (value != null) {
-          setState(() {
-            newsCat.addAll(value);
-            isLoading = false;
-          });
-        }
-      });
+    DioService().getResearchCategories().then((value) {
       if (value != null) {
         setState(() {
-          news = value;
+          newsCat.addAll(value);
+        });
+      }
+    });
+
+    getNews();
+  }
+
+  void getNews() {
+    DioService().getResearch(categoryId: categoryId, page: page).then((value) {
+      if (value != null) {
+        setState(() {
+          page++;
+          news.addAll(value);
+          isLoadingMore = false;
+          isLoading = false;
         });
       }
     });
@@ -57,6 +68,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
           ),
         ),
         SingleChildScrollView(
+          controller: controller,
           scrollDirection: Axis.horizontal,
           child: Row(
             children: [
@@ -71,6 +83,20 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
                             if (value) {
                               setState(() {
                                 selectedIndex = index;
+                                if (value) {
+                                  setState(() {
+                                    news = [];
+                                    page = 1;
+                                    isLoading = true;
+                                    selectedIndex = index;
+                                    categoryId = newsCat[selectedIndex].id;
+
+                                    if (selectedIndex == 0) {
+                                      categoryId = null;
+                                    }
+                                    getNews();
+                                  });
+                                }
                               });
                             }
                           },
@@ -85,10 +111,26 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
               itemCount: news.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3, mainAxisExtent: 180),
-              itemBuilder: (context, index) => DocCard(research: news[index])),
+              itemBuilder: (context, index) => GestureDetector(
+                  onTap: () => AppNavigation.pushScreen(
+                      context, ArticlesReaderScreen(news: news[index])),
+                  child: DocCard(research: news[index]))),
         ),
+        if (isLoadingMore) const Gap(16),
+        if (isLoadingMore) const LinearProgressIndicator(),
+        const Gap(16),
       ],
     );
+  }
+
+  void scrollListener() {
+    if (controller.offset >= controller.position.maxScrollExtent &&
+        !controller.position.outOfRange) {
+      setState(() {
+        isLoadingMore = true;
+      });
+      getNews();
+    }
   }
 }
 

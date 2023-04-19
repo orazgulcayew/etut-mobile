@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:etut_mobile/faculties/views/departments_screen.dart';
 import 'package:etut_mobile/faculties/views/faculties_screen.dart';
 import 'package:etut_mobile/global/styles/styles.dart';
 import 'package:etut_mobile/global/utils/app_navigator.dart';
@@ -32,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
 
-    DioService().getNews().then((value) {
+    DioService().getNews(toHome: true).then((value) {
       if (value != null) {
         setState(() {
           news = value;
@@ -156,32 +157,41 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 ...List.generate(
                     faculties.length,
-                    (index) => Container(
-                          width: 200,
-                          margin: const EdgeInsets.all(8),
-                          child: Column(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(12),
-                                child: Image.network(
-                                  faculties[index].image ??
-                                      'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg',
-                                  width: 200,
-                                  errorBuilder: (context, error, stackTrace) {
-                                    return Image.asset("assets/images/bio.png");
-                                  },
-                                  height: 120,
-                                  fit: BoxFit.cover,
+                    (index) => GestureDetector(
+                          onTap: () {
+                            AppNavigation.pushScreen(
+                                context,
+                                DepartmentsScreen(
+                                    faculties: faculties[index].departments));
+                          },
+                          child: Container(
+                            width: 200,
+                            margin: const EdgeInsets.all(8),
+                            child: Column(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: Image.network(
+                                    faculties[index].image ??
+                                        'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg',
+                                    width: 200,
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return Image.asset(
+                                          "assets/images/bio.png");
+                                    },
+                                    height: 120,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                faculties[index].title ?? "",
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: styles.titleMedium
-                                    ?.copyWith(fontWeight: FontWeight.bold),
-                              )
-                            ],
+                                Text(
+                                  faculties[index].title ?? "",
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: styles.titleMedium
+                                      ?.copyWith(fontWeight: FontWeight.bold),
+                                )
+                              ],
+                            ),
                           ),
                         ))
               ],

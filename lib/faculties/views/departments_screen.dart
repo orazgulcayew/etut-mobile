@@ -1,34 +1,24 @@
-import 'package:etut_mobile/faculties/views/departments_screen.dart';
 import 'package:etut_mobile/faculties/views/majors_screen.dart';
 import 'package:etut_mobile/global/styles/styles.dart';
 import 'package:etut_mobile/global/utils/app_navigator.dart';
+
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
-import '../../repository/dio_service.dart';
 import '../../repository/models/faculty.dart';
 
-class FacultiesScreen extends StatefulWidget {
-  const FacultiesScreen({super.key});
+class DepartmentsScreen extends StatefulWidget {
+  final List<Department> faculties;
+  const DepartmentsScreen({super.key, required this.faculties});
 
   @override
-  State<FacultiesScreen> createState() => _FacultiesScreenState();
+  State<DepartmentsScreen> createState() => _DepartmentsScreenState();
 }
 
-class _FacultiesScreenState extends State<FacultiesScreen> {
-  List<Faculty> faculties = [];
-
+class _DepartmentsScreenState extends State<DepartmentsScreen> {
   @override
   void initState() {
     super.initState();
-
-    DioService().getFaculties().then((value) {
-      if (value != null) {
-        setState(() {
-          faculties = value;
-        });
-      }
-    });
   }
 
   @override
@@ -36,12 +26,12 @@ class _FacultiesScreenState extends State<FacultiesScreen> {
     final styles = AppStyles.textTheme(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Faculties"),
+        title: const Text("Departments"),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            ...List.generate(faculties.length, (index) {
+            ...List.generate(widget.faculties.length, (index) {
               return Container(
                 width: double.infinity,
                 margin: const EdgeInsets.all(8),
@@ -51,7 +41,7 @@ class _FacultiesScreenState extends State<FacultiesScreen> {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(12),
                       child: Image.network(
-                        faculties[index].image ??
+                        widget.faculties[index].image ??
                             'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg',
                         width: double.infinity,
                         errorBuilder: (context, error, stackTrace) {
@@ -62,13 +52,13 @@ class _FacultiesScreenState extends State<FacultiesScreen> {
                       ),
                     ),
                     Text(
-                      faculties[index].title ?? "",
+                      widget.faculties[index].title ?? "",
                       style: styles.titleMedium
                           ?.copyWith(fontWeight: FontWeight.bold),
                     ),
                     const Gap(4),
                     Text(
-                      faculties[index].body ?? "",
+                      widget.faculties[index].body ?? "",
                       style: styles.bodyMedium,
                     ),
                     const Gap(4),
@@ -78,8 +68,9 @@ class _FacultiesScreenState extends State<FacultiesScreen> {
                             onPressed: () {
                               AppNavigation.pushScreen(
                                   context,
-                                  DepartmentsScreen(
-                                      faculties: faculties[index].departments));
+                                  MajorsScreen(
+                                      faculties:
+                                          widget.faculties[index].majors));
                             },
                             child: const Text("More")))
                   ],

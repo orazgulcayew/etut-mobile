@@ -2,15 +2,7 @@ import 'package:etut_mobile/articles/views/articles_screen.dart';
 import 'package:etut_mobile/global/providers/theme_provider.dart';
 import 'package:etut_mobile/home/views/home_screen.dart';
 import 'package:etut_mobile/faculties/views/faculties_screen.dart';
-import 'package:etut_mobile/news/views/news_reader_screen.dart';
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'package:gap/gap.dart';
-import 'package:heroicons/heroicons.dart';
-import 'package:line_icons/line_icon.dart';
-import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 
 import '../../cource_center/views/course_center_screen.dart';
@@ -27,7 +19,7 @@ class NavigationScreen extends StatefulWidget {
 }
 
 class _NavigationScreenState extends State<NavigationScreen> {
-  final screens = [
+  final screens = const [
     HomeScreen(),
     NewsScreen(),
     FacultiesScreen(),
@@ -53,8 +45,13 @@ class _NavigationScreenState extends State<NavigationScreen> {
         children: [
           DrawerHeader(
               child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
+              Image.asset(
+                "assets/images/logo.png",
+                height: 60,
+              ),
               Row(
                 children: [
                   const Text("ETUT Mobile",
@@ -73,7 +70,6 @@ class _NavigationScreenState extends State<NavigationScreen> {
                             ))
                 ],
               ),
-              const FlutterLogo(size: 60),
             ],
           )),
           const NavigationDrawerDestination(
