@@ -91,9 +91,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(20),
-                    child: CachedNetworkImage(
-                      imageUrl:
-                          "https://images.pexels.com/photos/3405456/pexels-photo-3405456.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+                    child: Image.asset(
+                      "assets/images/it.png",
                       height: 140,
                       fit: BoxFit.cover,
                       width: double.infinity,
@@ -268,9 +267,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(20),
-                          child: CachedNetworkImage(
-                            imageUrl:
-                                "https://images.pexels.com/photos/3405456/pexels-photo-3405456.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+                          child: Image.asset(
+                            "assets/images/it.png",
                             height: 140,
                             fit: BoxFit.cover,
                             width: double.infinity,
@@ -304,9 +302,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(20),
-                          child: CachedNetworkImage(
-                            imageUrl:
-                                "https://images.pexels.com/photos/3405456/pexels-photo-3405456.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+                          child: Image.asset(
+                            "assets/images/bio.png",
                             height: 140,
                             fit: BoxFit.cover,
                             width: double.infinity,
@@ -392,7 +389,14 @@ class NewsCard extends StatelessWidget {
                     const Gap(4),
                     Text(news.views.toString(), style: styles.labelSmall),
                     const Spacer(),
-                    Text(news.newsCategory.title, style: styles.labelSmall)
+                    Flexible(
+                      child: Text(
+                        news.newsCategory.title,
+                        style: styles.labelSmall,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
+                    )
                   ],
                 ),
                 Text(

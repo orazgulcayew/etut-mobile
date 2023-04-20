@@ -60,10 +60,6 @@ class _MajorsScreenState extends State<MajorsScreen> {
                       style: styles.bodyMedium,
                     ),
                     const Gap(4),
-                    Align(
-                        alignment: Alignment.centerRight,
-                        child: FilledButton.tonal(
-                            onPressed: () {}, child: const Text("More")))
                   ],
                 ),
               );

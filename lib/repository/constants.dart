@@ -1,5 +1,5 @@
 class AppEndpoints {
-  static const String url = "http://192.168.1.106:8000";
+  static const String url = "http://10.101.21.189:8000";
 
   static const String news = "/news/news/";
   static const String newsCat = "/news/news_category/";
@@ -8,6 +8,8 @@ class AppEndpoints {
 
   static const String research = "/research/research/";
   static const String researchCat = "/research/research-category/";
+
+  static const String teachers = '/graduates/teachers/';
 
   static const String category = "/api/library/categories/list";
   static const String homeProducts = "/api/products/mainpage/list/";

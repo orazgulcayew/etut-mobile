@@ -4,7 +4,7 @@ class News {
   final String body;
   final String linkTitle;
   final String link;
-  final int views;
+  final dynamic views;
   final NewsCategory newsCategory;
   final List<ImageFile> images;
   final List<Video> videos;

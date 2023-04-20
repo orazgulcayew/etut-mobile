@@ -110,7 +110,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
           child: GridView.builder(
               itemCount: news.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3, mainAxisExtent: 180),
+                  crossAxisCount: 3, mainAxisExtent: 200),
               itemBuilder: (context, index) => GestureDetector(
                   onTap: () => AppNavigation.pushScreen(
                       context, ArticlesReaderScreen(news: news[index])),
@@ -148,19 +148,21 @@ class DocCard extends StatelessWidget {
           research.title,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
-          style: styles.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+          style: styles.titleSmall?.copyWith(fontWeight: FontWeight.bold),
         ),
         Text(
           research.researcher,
-          maxLines: 1,
+          maxLines: 2,
           overflow: TextOverflow.ellipsis,
           style: styles.bodyMedium,
+          textAlign: TextAlign.center,
         ),
         Text(
           research.researchCategory.title,
-          maxLines: 1,
+          maxLines: 2,
           overflow: TextOverflow.ellipsis,
-          style: styles.bodySmall,
+          style: styles.bodySmall
+              ?.copyWith(color: AppStyles.colorScheme(context).primary),
         ),
       ],
     );

@@ -28,6 +28,7 @@ class _NewsScreenState extends State<NewsScreen> {
   @override
   void initState() {
     super.initState();
+    controller.addListener(scrollListener);
     DioService().getNewsCategories().then((value) {
       if (value != null) {
         setState(() {
@@ -51,6 +52,10 @@ class _NewsScreenState extends State<NewsScreen> {
           isLoading = false;
         });
       }
+    }).catchError((e) {
+      setState(() {
+        isLoadingMore = false;
+      });
     });
   }
 
@@ -65,6 +70,7 @@ class _NewsScreenState extends State<NewsScreen> {
             child: CircularProgressIndicator(),
           ),
           child: SingleChildScrollView(
+            controller: controller,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -83,7 +89,6 @@ class _NewsScreenState extends State<NewsScreen> {
                   ),
                 ),
                 SingleChildScrollView(
-                  controller: controller,
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: [

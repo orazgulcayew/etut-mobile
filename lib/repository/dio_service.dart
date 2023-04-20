@@ -104,11 +104,86 @@ class DioService {
         return null;
       }
 
-      for (var data in response.data["results"]) {
+      for (var data in response.data) {
         news.add(NewsCategory.fromJson(data));
       }
 
       return news;
+    } catch (e) {
+      debugPrint(e.toString());
+      return null;
+    }
+  }
+
+  Future<List<dynamic>?> getTeachers() async {
+    try {
+      final Response response = await _dio.get(AppEndpoints.teachers);
+
+      if (response.statusCode != 200) {
+        return null;
+      }
+
+      return response.data;
+    } catch (e) {
+      debugPrint(e.toString());
+      return null;
+    }
+  }
+
+  Future<List<dynamic>?> getStudents() async {
+    try {
+      final Response response = await _dio.get("/graduates/graduates/");
+
+      if (response.statusCode != 200) {
+        return null;
+      }
+
+      return response.data;
+    } catch (e) {
+      debugPrint(e.toString());
+      return null;
+    }
+  }
+
+  Future<List<dynamic>?> getGraduates() async {
+    try {
+      final Response response = await _dio.get("/graduates/graduates/");
+
+      if (response.statusCode != 200) {
+        return null;
+      }
+
+      return response.data;
+    } catch (e) {
+      debugPrint(e.toString());
+      return null;
+    }
+  }
+
+  Future<List<dynamic>?> getCourses() async {
+    try {
+      final Response response = await _dio.get("/course/courses/");
+
+      if (response.statusCode != 200) {
+        return null;
+      }
+
+      return response.data;
+    } catch (e) {
+      debugPrint(e.toString());
+      return null;
+    }
+  }
+
+  Future<List<dynamic>?> getBooks() async {
+    try {
+      final Response response = await _dio.get("/course/books/");
+
+      if (response.statusCode != 200) {
+        return null;
+      }
+
+      return response.data;
     } catch (e) {
       debugPrint(e.toString());
       return null;
@@ -125,7 +200,7 @@ class DioService {
         return null;
       }
 
-      for (var data in response.data["results"]) {
+      for (var data in response.data) {
         news.add(ResearchCategory.fromJson(data));
       }
 

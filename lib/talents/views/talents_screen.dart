@@ -1,6 +1,8 @@
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:etut_mobile/global/styles/styles.dart';
+import 'package:etut_mobile/repository/dio_service.dart';
 import 'package:flutter/material.dart';
 
 class TalentsScreen extends StatefulWidget {
@@ -13,6 +15,7 @@ class TalentsScreen extends StatefulWidget {
 class _TalentsScreenState extends State<TalentsScreen>
     with TickerProviderStateMixin {
   late TabController _tabController;
+
   @override
   void initState() {
     super.initState();
@@ -40,69 +43,120 @@ class _TalentsScreenState extends State<TalentsScreen>
       ),
       Expanded(
         child: TabBarView(
+          physics: const BouncingScrollPhysics(),
           controller: _tabController,
           children: List.generate(
-              _tabController.length, (index) => const TabBodyScreen()),
+              _tabController.length,
+              (index) => TabBodyScreen(
+                    type: index,
+                  )),
         ),
       ),
     ]);
   }
 }
 
-class TabBodyScreen extends StatelessWidget {
-  const TabBodyScreen({super.key});
+class TabBodyScreen extends StatefulWidget {
+  final int type;
+  const TabBodyScreen({super.key, required this.type});
+
+  @override
+  State<TabBodyScreen> createState() => _TabBodyScreenState();
+}
+
+class _TabBodyScreenState extends State<TabBodyScreen> {
+  List<dynamic> teachers = [];
+  bool isLoaded = false;
+  @override
+  void initState() {
+    super.initState();
+    if (widget.type == 0) {
+      DioService().getTeachers().then((value) {
+        setState(() {
+          teachers = value ?? [];
+          isLoaded = true;
+        });
+      });
+    } else if (widget.type == 1) {
+      DioService().getGraduates().then((value) {
+        setState(() {
+          teachers = value ?? [];
+          isLoaded = true;
+        });
+      });
+    } else {
+      DioService().getGraduates().then((value) {
+        setState(() {
+          teachers = value ?? [];
+          isLoaded = true;
+        });
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    final colors = AppStyles.colorScheme(context);
-    return GridView.builder(
-        itemCount: 40,
-        padding: const EdgeInsets.all(12),
-        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: 300, mainAxisExtent: 250),
-        itemBuilder: (context, index) => Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Stack(
-                children: [
-                  SizedBox(
-                    width: double.infinity,
-                    height: double.infinity,
-                    child: Image.network(
-                      "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-                      fit: BoxFit.cover,
+    return Visibility(
+      visible: isLoaded,
+      replacement: const Center(
+        child: CircularProgressIndicator(),
+      ),
+      child: GridView.builder(
+          itemCount: teachers.length,
+          padding: const EdgeInsets.all(12),
+          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 300, mainAxisExtent: 250),
+          itemBuilder: (context, index) => Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Stack(
+                  children: [
+                    SizedBox(
+                      width: double.infinity,
+                      height: double.infinity,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: CachedNetworkImage(
+                          imageUrl: teachers[index]["src"] ?? "",
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
-                  ),
-                  Positioned(
-                    bottom: 4,
-                    left: 12,
-                    right: 12,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
-                      child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Color.fromARGB(42, 94, 148, 229),
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(
-                              color: const Color.fromARGB(125, 189, 189, 189),
-                              width: 0.8,
+                    Positioned(
+                      bottom: 2,
+                      left: 4,
+                      right: 4,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: const Color.fromARGB(42, 94, 148, 229),
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                color: const Color.fromARGB(125, 189, 189, 189),
+                                width: 0.8,
+                              ),
                             ),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 4),
-                            child: FittedBox(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 4, vertical: 4),
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Text('Name surname',
-                                      style: TextStyle(
+                                  Text(teachers[index]["name"] ?? "",
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
                                         fontSize: 14,
+                                        color: Colors.white,
                                         fontWeight: FontWeight.bold,
                                       )),
-                                  Text('Teacher',
-                                      style: TextStyle(fontSize: 12)),
+                                  Text(teachers[index]["major"]["title"] ?? "",
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                          fontSize: 12, color: Colors.white)),
                                 ],
                               ),
                             ),
@@ -110,9 +164,9 @@ class TabBodyScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ));
+                  ],
+                ),
+              )),
+    );
   }
 }
