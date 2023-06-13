@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:etut_mobile/global/providers/theme_provider.dart';
+import 'package:etut_mobile/home/views/home_screen.dart';
 import 'package:etut_mobile/navigation/views/navigation.dart';
 import 'package:etut_mobile/repository/http_overrides.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    precacheImage(const AssetImage("assets/images/loading.gif"), context);
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
@@ -32,7 +34,7 @@ class MyApp extends StatelessWidget {
               brightness: themeProvider.brightness,
               colorSchemeSeed: Colors.lightBlue,
               fontFamily: "Nunito"),
-          home: const NavigationScreen(),
+          home: const Splash(),
         );
       },
     );

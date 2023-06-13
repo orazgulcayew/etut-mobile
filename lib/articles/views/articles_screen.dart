@@ -20,6 +20,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
   List<ResearchCategory> newsCat = [ResearchCategory(id: -1, title: "All")];
   int selectedIndex = 0;
   int? categoryId;
+  final searchController = TextEditingController();
   bool isLoading = true;
   bool isLoadingMore = false;
   int page = 1;
@@ -59,6 +60,16 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
           height: 40,
           margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           child: TextField(
+            controller: searchController,
+            onSubmitted: (value) {
+              setState(() {
+                news = [];
+                page = 1;
+                isLoading = true;
+              });
+
+              getNews();
+            },
             decoration: InputDecoration(
                 suffixIcon: const Icon(Icons.search),
                 hintText: "Gözleg...",

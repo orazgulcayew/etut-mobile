@@ -6,4 +6,10 @@ class AppNavigation {
       builder: (context) => screen,
     ));
   }
+
+  static pushReplace(BuildContext context, screen) {
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+      builder: (context) => screen,
+    ));
+  }
 }

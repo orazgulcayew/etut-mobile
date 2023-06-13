@@ -14,7 +14,7 @@ class VrTourScreen extends StatelessWidget {
           onWebResourceError: (WebResourceError error) {},
         ),
       )
-      ..loadRequest(Uri.parse('http://192.168.11.142:2222'));
+      ..loadRequest(Uri.parse('http://172.16.0.71/360/'));
 
     return Scaffold(
       body: WebViewWidget(controller: controller),

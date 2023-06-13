@@ -81,14 +81,11 @@ class _NavigationScreenState extends State<NavigationScreen> {
           const NavigationDrawerDestination(
               icon: Icon(Icons.vrpano_rounded), label: Text("360VR tour")),
           const NavigationDrawerDestination(
-              icon: Icon(Icons.article), label: Text("Articles")),
+              icon: Icon(Icons.article), label: Text("Researches")),
           const NavigationDrawerDestination(
               icon: Icon(Icons.computer_rounded), label: Text("Course center")),
           const NavigationDrawerDestination(
               icon: Icon(Icons.people_rounded), label: Text("Talents")),
-          const NavigationDrawerDestination(
-              icon: Icon(Icons.cast_for_education_rounded),
-              label: Text("Education portal")),
         ],
       ),
       body: screens[screenIndex],

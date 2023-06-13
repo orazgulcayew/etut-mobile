@@ -1,16 +1,22 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:etut_mobile/cource_center/views/course_center_screen.dart';
 import 'package:etut_mobile/faculties/views/departments_screen.dart';
 import 'package:etut_mobile/faculties/views/faculties_screen.dart';
 import 'package:etut_mobile/global/styles/styles.dart';
 import 'package:etut_mobile/global/utils/app_navigator.dart';
+import 'package:etut_mobile/navigation/views/navigation.dart';
 import 'package:etut_mobile/news/views/news_reader_screen.dart';
 import 'package:etut_mobile/news/views/news_screen.dart';
 import 'package:etut_mobile/repository/dio_service.dart';
 import 'package:etut_mobile/repository/models/faculty.dart';
 import 'package:etut_mobile/repository/models/news.dart';
+import 'package:etut_mobile/talents/views/talents_screen.dart';
 import 'package:etut_mobile/vrtour/views/vrtour_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:flutter_gif/flutter_gif.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -261,72 +267,83 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Row(
               children: [
                 Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 4),
-                    child: Stack(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
-                          child: Image.asset(
-                            "assets/images/it.png",
-                            height: 140,
-                            fit: BoxFit.cover,
+                  child: GestureDetector(
+                    onTap: () {
+                      AppNavigation.pushScreen(
+                          context, const CourseCenterScreen());
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      child: Stack(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Image.asset(
+                              "assets/images/it.png",
+                              height: 140,
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                            ),
+                          ),
+                          Container(
                             width: double.infinity,
+                            height: 140,
+                            decoration: BoxDecoration(
+                                color: Colors.black.withOpacity(0.3),
+                                borderRadius: BorderRadius.circular(20)),
                           ),
-                        ),
-                        Container(
-                          width: double.infinity,
-                          height: 140,
-                          decoration: BoxDecoration(
-                              color: Colors.black.withOpacity(0.3),
-                              borderRadius: BorderRadius.circular(20)),
-                        ),
-                        Positioned(
-                          bottom: 8,
-                          left: 16,
-                          child: Text(
-                            "Course center",
-                            style: styles.titleLarge?.copyWith(
-                                fontWeight: FontWeight.bold,
-                                color: colors.surface),
-                          ),
-                        )
-                      ],
+                          Positioned(
+                            bottom: 8,
+                            left: 16,
+                            child: Text(
+                              "Course center",
+                              style: styles.titleLarge?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: colors.surface),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
                 Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 4),
-                    child: Stack(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
-                          child: Image.asset(
-                            "assets/images/bio.png",
-                            height: 140,
-                            fit: BoxFit.cover,
+                  child: GestureDetector(
+                    onTap: () {
+                      AppNavigation.pushScreen(context, const TalentsScreen());
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      child: Stack(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Image.asset(
+                              "assets/images/bio.png",
+                              height: 140,
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                            ),
+                          ),
+                          Container(
                             width: double.infinity,
+                            height: 140,
+                            decoration: BoxDecoration(
+                                color: Colors.black.withOpacity(0.3),
+                                borderRadius: BorderRadius.circular(20)),
                           ),
-                        ),
-                        Container(
-                          width: double.infinity,
-                          height: 140,
-                          decoration: BoxDecoration(
-                              color: Colors.black.withOpacity(0.3),
-                              borderRadius: BorderRadius.circular(20)),
-                        ),
-                        Positioned(
-                          bottom: 8,
-                          left: 16,
-                          child: Text(
-                            "Productions",
-                            style: styles.titleLarge?.copyWith(
-                                fontWeight: FontWeight.bold,
-                                color: colors.surface),
-                          ),
-                        )
-                      ],
+                          Positioned(
+                            bottom: 8,
+                            left: 16,
+                            child: Text(
+                              "Graduates",
+                              style: styles.titleLarge?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: colors.surface),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -337,6 +354,65 @@ class _HomeScreenState extends State<HomeScreen> {
           Text("v.1.0.0", style: styles.bodySmall),
           const Gap(16),
         ],
+      ),
+    );
+  }
+}
+
+class Splash extends StatefulWidget {
+  const Splash({super.key});
+
+  @override
+  State<Splash> createState() => _SplashState();
+}
+
+class _SplashState extends State<Splash> {
+  late FlutterGifController controller;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // controller.repeat(
+    //     min: 0, max: 187, period: const Duration(milliseconds: 2500));
+
+    Timer(const Duration(milliseconds: 3000), () {
+      // After 3 seconds, navigate to the home screen
+      AppNavigation.pushReplace(context, const NavigationScreen());
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Spacer(),
+            SizedBox(
+              width: 200,
+              height: 200,
+              // child: GifImage(
+              //   image: const AssetImage("assets/images/loading.gif"),
+              //   width: 200,
+              //   controller: controller,
+              // ),
+              child: Image.asset("assets/images/loading.gif"),
+            ),
+            const Gap(16),
+            const Text(
+              "ETUT Mobile",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
+            ),
+            const Spacer(),
+            const Text(
+              "Made by Oguztech",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            ),
+            const Gap(20)
+          ],
+        ),
       ),
     );
   }
@@ -406,11 +482,11 @@ class NewsCard extends StatelessWidget {
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
-                Html(
-                    data: "${news.body.substring(0, subStringLength)}...",
-                    defaultTextStyle: styles.bodySmall?.copyWith(
-                      overflow: TextOverflow.ellipsis,
-                    ))
+                // Html(
+                //     data: "${news.body.substring(0, subStringLength)}...",
+                //     defaultTextStyle: styles.bodySmall?.copyWith(
+                //       overflow: TextOverflow.ellipsis,
+                //     ))
               ],
             ),
           ),

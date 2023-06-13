@@ -24,35 +24,39 @@ class _TalentsScreenState extends State<TalentsScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      TabBar(
-        controller: _tabController,
-        isScrollable: false,
-        indicatorSize: TabBarIndicatorSize.label,
-        tabs: const [
-          Tab(
-            text: 'Teachers',
+    return Material(
+      child: SafeArea(
+        child: Column(children: [
+          TabBar(
+            controller: _tabController,
+            isScrollable: false,
+            indicatorSize: TabBarIndicatorSize.label,
+            tabs: const [
+              Tab(
+                text: 'Teachers',
+              ),
+              Tab(
+                text: 'Students',
+              ),
+              Tab(
+                text: 'Graduates',
+              ),
+            ],
           ),
-          Tab(
-            text: 'Students',
+          Expanded(
+            child: TabBarView(
+              physics: const BouncingScrollPhysics(),
+              controller: _tabController,
+              children: List.generate(
+                  _tabController.length,
+                  (index) => TabBodyScreen(
+                        type: index,
+                      )),
+            ),
           ),
-          Tab(
-            text: 'Graduates',
-          ),
-        ],
+        ]),
       ),
-      Expanded(
-        child: TabBarView(
-          physics: const BouncingScrollPhysics(),
-          controller: _tabController,
-          children: List.generate(
-              _tabController.length,
-              (index) => TabBodyScreen(
-                    type: index,
-                  )),
-        ),
-      ),
-    ]);
+    );
   }
 }
 
@@ -78,7 +82,7 @@ class _TabBodyScreenState extends State<TabBodyScreen> {
         });
       });
     } else if (widget.type == 1) {
-      DioService().getGraduates().then((value) {
+      DioService().getStudents().then((value) {
         setState(() {
           teachers = value ?? [];
           isLoaded = true;

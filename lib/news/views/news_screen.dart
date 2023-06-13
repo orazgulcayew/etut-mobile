@@ -15,6 +15,7 @@ class NewsScreen extends StatefulWidget {
 
 class _NewsScreenState extends State<NewsScreen> {
   List<News> news = [];
+  final searchController = TextEditingController();
   List<NewsCategory> newsCat = [NewsCategory(id: -1, title: "All")];
   int selectedIndex = 0;
   int? categoryId;
@@ -42,7 +43,11 @@ class _NewsScreenState extends State<NewsScreen> {
 
   void getNews() {
     DioService()
-        .getNews(toHome: null, category: categoryId, page: pageSize)
+        .getNews(
+            toHome: null,
+            category: categoryId,
+            page: pageSize,
+            q: searchController.text)
         .then((valueNews) {
       if (valueNews != null) {
         setState(() {
@@ -79,6 +84,16 @@ class _NewsScreenState extends State<NewsScreen> {
                   margin:
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                   child: TextField(
+                    controller: searchController,
+                    onSubmitted: (value) {
+                      setState(() {
+                        news = [];
+                        pageSize = 1;
+                        isLoading = true;
+                      });
+
+                      getNews();
+                    },
                     decoration: InputDecoration(
                         suffixIcon: const Icon(Icons.search),
                         hintText: "Gözleg...",
